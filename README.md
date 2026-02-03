@@ -16,9 +16,9 @@ The model was trained on three distinct battery datasets with different environm
 
 | Battery | Temp Index | Cycles | Role |
 | :--- | :--- | :--- | :--- |
-| **B05** | Room Temp (24°C) | 125 | Baseline Knowledge |
-| **B33** | Variable Load | 133 | Complex Aging |
-| **B48** | High Temp | 38 | Small/Extreme Condition |
+| **B05** | Room Temp (24°C) | 125 | 
+| **B33** | Variable Load | 133 | 
+| **B48** | High Temp | 38 | 
 
 ---
 
