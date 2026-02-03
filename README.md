@@ -1,42 +1,58 @@
-# BMS-Federated-Learning
-A Federated Learning (FL) framework designed to predict the State of Health (SOH) of Lithium-ion batteries across heterogeneous clients using GRU (Gated Recurrent Units).
+### Install History
 
-## Project Overview
-This project transitions battery health monitoring from isolated models to a collaborative **Federated Averaging (FedAvg)** architecture. It solves the problem of data heterogeneity and privacy by training a global model across different battery profiles without sharing raw data.
+- ubuntu22.04
+- ip : static : inet 172.30.1.207/24 brd 172.30.1.255 scope global noprefixroute enp34s0
+- user: mulder, path: /home/mulder, pwd : 6448
+- access: ssh mulder@g3090
 
-### Key Features
-- **Federated Averaging**: 20 rounds of global weight aggregation.
-- **Personalization Phase**: 10-epoch local fine-tuning to fix performance gaps in small/high-temp datasets.
-- **Heterogeneous Handling**: Successfully manages datasets with varying cycle counts and thermal indexes (B05, B33, B48).
+```
+# nvidia drive cuda cudnn
+  sudo apt update && upgrade -y
+  sudo apt install build-essential gcc ubuntu-drivers-common dkms vim nvidia-modprobe
+  sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+  sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+  cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  blacklist nouveau
+  sudo update-initramfs -u
+  lsmod |grep nouveau
+  ubuntu-drivers devices
+  sudo apt install nvidia-driver-525
+  sudo reboot
+  nvidia-smi
+  sudo apt install -y nvidia-utils-525
+  sudo apt install -y nvidia-cuda-toolkit
+  ldconfig -p | grep cudnn
+  sudo apt install git
+  nvcc -V
 
----
+  cd Downloads/
+  sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.7.29_1.0-1_amd64.deb
+  nvidia-smi
 
-## Dataset: NASA Battery Profiles
-The model was trained on three distinct battery datasets with different environmental conditions:
+# uv for python
+  curl -LsSf https://astral.sh/uv/install.sh | sh
 
-| Battery | Temp Index | Cycles | 
-| :--- | :--- | :--- | 
-| **B05** | Room Temp (24°C) | 125 | 
-| **B33** | Variable Load | 133 | 
-| **B48** | High Temp | 38 | 
+  cd ~/Project/mulder
+  uv venv -p 3.13
+  source .venv/bin/activate
+  deactivate
 
----
+# nvidia-docker
+  sudo apt install -y ca-certificates curl gnupg lsb-release
+  distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+  curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+  curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+  sudo apt update
+  sudo apt install -y nvidia-docker2
+  sudo systemctl restart docker
+  sudo usermod -aG docker $USER
+  sudo reboot
 
-## Architecture & Flow
-The project follows a two-stage learning process:
+  docker ps -a
+  docker run --rm --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 
-1. **Global FL Stage**: 20 rounds of communication where the server aggregates weights from all clients to learn general aging physics.
-2. **Personalization Stage**: Client 1 (B48) performs local transfer learning to adapt the global weights to its specific high-temperature decay curve.
+# ssh
+  sudo apt update
+  sudo apt install openssh-server
 
-
-
----
-
-## Results
-The implementation successfully reduced error rates for the most challenging client (B48) by nearly **70%**.
-
-| Client | Model | MSE | RMSE |
-| :--- | :--- | :--- | :--- |
-| **B48** | Global (Before) | 0.000759 | 0.027542 |
-| **B48** | **Personalized (After)** | **0.000252** | **0.015883** |
-| **B05** | Global | 0.000038 | 0.006176 |
+```
