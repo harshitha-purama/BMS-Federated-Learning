@@ -14,7 +14,7 @@ This project transitions battery health monitoring from isolated models to a col
 ## Dataset: NASA Battery Profiles
 The model was trained on three distinct battery datasets with different environmental conditions:
 
-| Battery | Temp Index | Cycles | Role |
+| Battery | Temp Index | Cycles | 
 | :--- | :--- | :--- | :--- |
 | **B05** | Room Temp (24°C) | 125 | 
 | **B33** | Variable Load | 133 | 
