@@ -17,8 +17,8 @@ The model utilizes three distinct battery datasets representing different enviro
 | Battery | Temp Index | Cycles | 
 | :--- | :--- | :--- | 
 | **B05** | Room Temp (24°C) | 125 | 
-| **B33** | Variable Load | 133 | 
-| **B48** | High Temp | 38 | 
+| **B33** | high Temp | 133 | 
+| **B48** | Variable Load | 38 | 
 
 ## Performance Results
 The personalization strategy successfully reduced error rates for the most challenging client (B48) by nearly **67%**.
